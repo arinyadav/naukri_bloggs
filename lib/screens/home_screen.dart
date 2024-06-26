@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+    final List<String> imageUrls = [
+        'images/login_screen.png',
+        'images/login_screen.png',
+        'images/login_screen.png',
+        'images/login_screen.png',
+        'images/login_screen.png',
+  ];
+
   FirebaseAuth auth = FirebaseAuth.instance; 
 
   @override
@@ -77,35 +87,57 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                        GestureDetector(
-                        onTap: () {
-                        //  auth.signOut().then((value) => {
-                        //     Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(builder: (context) => const OptionScreen()),
-                        //   ),
-                        //   });
-
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 60, // Square button
-                          margin: const EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(50),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: const Center(
-                            child: Icon(Icons.logout_sharp, color: Colors.black, size: 25),
-                          ),
-                        ),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Confirm Logout"),
+              content: const Text("Are you sure you want to logout?"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text("Cancel"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text("Logout"),
+                  onPressed: () {
+                    auth.signOut().then((value) => {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const OptionScreen()),
                       ),
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Container(
+        height: 60,
+        width: 60, // Square button
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Icon(Icons.logout_sharp, color: Colors.black, size: 25),
+        ),
+      ),
+    ),
                       Expanded(
                         child: Container(
                           height: 60,
@@ -135,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),                      
+                      const SizedBox(width: 10,),                      
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -184,34 +216,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  // const SizedBox(height: 10),
-                  // const Text(
-                  //   "SOLUTION FOR",
-                  //   style: TextStyle(
-                  //     wordSpacing: 2.5,
-                  //     letterSpacing: 2.5,
-                  //     color: Colors.black,
-                  //     fontSize: 26,
-                  //     fontWeight: FontWeight.w400,
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 10),
-                  // const Text(
-                  //   "ALL YOUR PLACEMENTS",
-                  //   style: TextStyle(
-                  //     wordSpacing: 2.5,
-                  //     letterSpacing: 2.5,
-                  //     color: Colors.black,
-                  //     fontSize: 24,
-                  //     fontWeight: FontWeight.w300,
-                  //   ),
-                  // ),
                    Container(
-                      height: 200, 
-                      decoration: BoxDecoration(color: Colors.red)
+      height: 200,
+      child: CarouselSlider(
+        options: CarouselOptions(
+          height: 200,
+          autoPlay: true,
+          enlargeCenterPage: true,
+        ),
+        items: imageUrls.map((url) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Container(
+                margin: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                     // blurRadius: 5,
+                      offset: const Offset(0, 5),
                     ),
-                 const SizedBox(height: 20),
-                  Center( // Center the GestureDetector
+                  ],
+                  image: DecorationImage(
+                    image: NetworkImage(url),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          );
+        }).toList(),
+      ),
+    ),
+                // const SizedBox(height: 0),
+                  Center( 
                     child: Column(
                       children: [
                         GestureDetector(
@@ -225,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 80,
                             width: 80, // Square button
                             decoration: BoxDecoration(
-                              color: Color(0xFF5272FF),
+                              color: const Color(0xFF5272FF),
                               borderRadius: BorderRadius.circular(50),
                               boxShadow: [
                                 BoxShadow(
