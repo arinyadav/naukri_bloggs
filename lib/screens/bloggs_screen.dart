@@ -101,17 +101,17 @@ class _BloggScreenState extends State<BloggScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              post['pRound'],
+              'Number of Rounds: ${post['pRound']}',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 10),
             Text(
-              post['ptopics'],
+              'Major Topics: ${post['ptopics']}',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 10),
             Text(
-              post['pDesc'],
+              'More Info: ${post['pDesc']}',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w200),
             ),
           ],
