@@ -20,7 +20,7 @@ Specific Blogs for Companies and Colleges:
 Tailored blogs that provide insights into specific companies' recruitment processes for particular colleges.
 Real experiences and tips from students who have been through the process.
 
-# Open for Feature Requests like 
+# Open for Feature Requests like:-
 
 UI Changes:
 Encourages user feedback and contributions through pull requests.
